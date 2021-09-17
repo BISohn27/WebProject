@@ -1,6 +1,7 @@
 package LoginSystem;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,16 +35,31 @@ public class Login extends HttpServlet {
 		Connection conn = DBAction.getInstance().getConnection();
 		Statement stmt = null;
 		ResultSet rs = null;
+		boolean idpwCheck = true;
 		
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
 		
 		String id = request.getParameter("id");
 		String pw = request.getParameter("pw");
 		
 		try {
 			stmt = conn.createStatement();
-			stmt.executeQuery("SELECT * FROM USERINFO");
+			rs = stmt.executeQuery("SELECT ID,PW FROM USERINFO");
+			
+			while(rs.next()) {
+				if(rs.getString(1).equals(id)) {
+					if(rs.getString(2).equals(pw)) {
+						idpwCheck = false;
+						response.sendRedirect("Service?id="+id);
+						break;
+					}
+				}
+			}
+			if(idpwCheck) {
+				response.sendRedirect("login.html");
+			}
 			
 		}catch(Exception e) {
 			e.printStackTrace();
