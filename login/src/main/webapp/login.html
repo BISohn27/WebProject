@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Login Page</title>
+<style>
+	header {
+		height: 220px;
+	}
+	
+	div#login_wrapper {
+		background: lightgray;
+		display: flex;
+		height: 40vh;
+		justify-content: center;
+		align-items: center;
+	}
+</style>
+</head>
+<body leftmargin=0>
+	<header></header>
+	<section>
+		<div id="login_wrapper">
+			<form action="Login" method="post">
+				<input type="text" placeholder="아이디" size="20" maxlength="20"
+					name="id"><br> <input type="password"
+					placeholder="패스워드" size="20" maxlength="20" name="pw"><br>
+				<input type="submit" value="로그인"><input type="button"
+					onclick="location.href='/login/signinform.html'" value="회원가입">
+			</form>
+		</div>
+	</section>
+</body>
+</html>

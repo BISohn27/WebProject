@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>SignUp Page</title>
+</head>
+<body>
+	<header>
+		<h1>
+			<i>Login</i>
+		</h1>
+	</header>
+	<section>
+		<form method="post" action="/login/SignUp">
+			<fieldset>
+				<legend>개인정보입력</legend>
+				<table>
+					<tr>
+						<th align="right">아이디:</th>
+						<td><input type="text" size="20" maxlength="20"
+							placeholder="아이디를 입력하세요." name="id"></td>
+					</tr>
+					<tr>
+						<th align="right">패스워드:</th>
+						<td><input type="password" size="20" maxlength="20"
+							placeholder="비밀번호를 입력하세요." name="pw"></td>
+					</tr>
+					<tr>
+						<th align="right">이 름:</th>
+						<td><input type="text" size="20" maxlength="20"
+							placeholder="이름을 입력하세요." name="name"></td>
+					</tr>
+					<tr>
+						<th align="right">생년월일:</th>
+						<td><input type="text" size="4" maxlength="4" name="year">년
+							<input type="text" size="2" maxlength="2" name="month">월
+							<input type="text" size="2" maxlength="2" name="day">일</td>
+					</tr>
+					<tr>
+						<th align="right">성 별:</th>
+						<td><input type="radio" name="gender" value="male">남<input
+							type="radio" name="gender" value="female">여</td>
+					<tr>
+						<th align="right">전화번호:</th>
+						<td><select name="firstphone">
+								<option>선택</option>
+								<option value="011">011</option>
+								<option value="010">010</option>
+								<option value="02">02</option>
+								<option value="031">031</option>
+								<option value="032">032</option>
+								<option value="033">033</option>
+								<option value="041">041</option>
+								<option value="042">042</option>
+								<option value="043">043</option>
+								<option value="044">044</option>
+								<option value="051">051</option>
+								<option value="052">052</option>
+								<option value="053">053</option>
+								<option value="054">054</option>
+								<option value="055">055</option>
+								<option value="061">061</option>
+								<option value="062">062</option>
+								<option value="063">063</option>
+								<option value="064">064</option>
+						</select> <input type="text" size="4" maxlength="4" name="secondphone">
+							<input type="text" size="4" maxlength="4" name="thirdphone">
+						</td>
+					</tr>
+					<tr>
+						<th align="right">이메일:</th>
+						<td><input type="text" size="20" maxlength="20"
+							name="emailid">@<input type="text" size="20"
+							maxlength="20" name="emailaddress"></td>
+					</tr>
+					<tr>
+						<th align="right">수 신:</th>
+						<td><input type="radio" name="agreement" value="agree">동의<input
+							type="radio" name="agreement" value="disagree">비동의</td>
+					</tr>
+				</table>
+				<input type="submit" value="회원가입"><input type="reset"
+					value="전체수정">
+			</fieldset>
+		</form>
+	</section>
+</body>
+</html>
