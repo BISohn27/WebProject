@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -50,33 +52,43 @@ public class SignUp extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Connection conn = DBAction.getInstance().getConnection();
 		PreparedStatement pstmt = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
-		String[] data = new String[8];
-		data[0] = request.getParameter("id");
-		data[1] = request.getParameter("pw");
-		data[2] = request.getParameter("name");
-		data[3] = request.getParameter("year") + request.getParameter("month") + request.getParameter("day");
-		data[4] = request.getParameter("gender");
-		data[5] = request.getParameter("firstphone") + request.getParameter("secondphone") + request.getParameter("thirdphone");
-		data[6] = request.getParameter("emailid") + "@" + request.getParameter("emailaddress");
-		data[7] = request.getParameter("agreement");
-		
 		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("SELECT * FROM USERINFO");
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int cnt = rsmd.getColumnCount();
+			
+			String[] data = new String[cnt];
+			data[0] = request.getParameter("id");
+			data[1] = request.getParameter("pw");
+			data[2] = request.getParameter("name");
+			data[3] = request.getParameter("year") + request.getParameter("month") + request.getParameter("day");
+			data[4] = request.getParameter("gender");
+			data[5] = request.getParameter("firstphone") + request.getParameter("secondphone") + request.getParameter("thirdphone");
+			data[6] = request.getParameter("emailid") + "@" + request.getParameter("emailaddress");
+			data[7] = request.getParameter("agreement");
+			
 			pstmt = conn.prepareStatement("INSERT INTO USERINFO VALUES(?,?,?,?,?,?,?,?)");
 			
-			for(int i = 1; i<=8; i++) {
+			for(int i = 1; i<=cnt; i++) {
 				pstmt.setString(i, data[i-1]);
 			}
-			
 			pstmt.executeUpdate();
 			
+			response.sendRedirect("/login/login.html");
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally{
 			try {
+				if(rs != null) rs.close();
+				if(stmt != null) stmt.close();
 				if(pstmt != null) pstmt.close();
 			}catch(SQLException e) {}
 		}
