@@ -1,14 +1,21 @@
-package DTO;
+package data;
 
-public class UserInfo {
+public class DTO {
 	private String id;
 	private String pw;
 	private String name;
 	private String birth;
 	private String gender;
+	private String phone;
 	private String email;
 	private String agreement;
 	
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 	public String getId() {
 		return id;
 	}
