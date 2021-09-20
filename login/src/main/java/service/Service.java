@@ -95,6 +95,14 @@ public class Service extends HttpServlet {
 			}else {
 				response.sendRedirect("login.html");
 			}
+			
+		} else if(command != null && command.equals("delete")) {
+			String id = request.getParameter("id");
+			dao.deleteUser(id);
+			response.sendRedirect("login.html");
+			
+		} else if(command != null && command.equals("modify")) {
+			
 		}
 	}
 

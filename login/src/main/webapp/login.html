@@ -22,12 +22,11 @@
 	<header></header>
 	<section>
 		<div id="login_wrapper">
-			<form action="Login" method="post">
-				<input type="text" placeholder="아이디" size="20" maxlength="20"
-					name="id"><br> <input type="password"
-					placeholder="패스워드" size="20" maxlength="20" name="pw"><br>
-				<input type="submit" value="로그인"><input type="button"
-					onclick="location.href='/login/signinform.html'" value="회원가입">
+			<form action="Service" method="post">
+				<input type="text" placeholder="아이디" size="20" maxlength="20" name="id"><br> 
+				<input type="password" placeholder="패스워드" size="20" maxlength="20" name="pw"><br>
+				<input type="submit" value="로그인"><input type="button" onclick="location.href='/login/signinform.html'" value="회원가입">
+				<input type="hidden" name="command" value="login">
 			</form>
 		</div>
 	</section>

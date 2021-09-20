@@ -1,5 +1,6 @@
 package data;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -52,10 +53,11 @@ public class DAO {
 	
 	public DTO getUser(String id) {
 		DTO dto = new DTO();
+		ResultSet rs =null;
 		conn = DBAction.getInstance().getConnection();
 		try{
 			pstmt = conn.prepareStatement("SELECT * FROM USERINFO WHERE ID='"+id+"'");
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				dto.setId(rs.getString(1));
 				dto.setPw(rs.getString(2));
@@ -70,6 +72,7 @@ public class DAO {
 			e.printStackTrace();
 		}finally {
 			try {
+				if(rs != null) rs.close();
 				if(pstmt != null) pstmt.close();
 				if(conn != null) conn.close();
 			}catch(SQLException e) {}
@@ -77,7 +80,7 @@ public class DAO {
 		return dto;
 	}
 	
-	public void addUser (DTO dto) {
+	public DTO addUser (DTO dto) {
 		try {
 			conn = DBAction.getInstance().getConnection();
 			pstmt = conn.prepareStatement("INSERT INTO USERINFO VALUES(?,?,?,?,?,?,?,?)");
@@ -98,6 +101,7 @@ public class DAO {
 				if(conn != null) conn.close();
 			}catch(SQLException e) {}
 		}
+		return dto;
 	}
 	
 	public void deleteUser(String id) {
@@ -113,5 +117,40 @@ public class DAO {
 				if(conn != null) conn.close();
 			}catch(SQLException e) {}
 		}
+	}
+	
+	public DTO loginCheck(String id, String pw) {
+		ResultSet rs = null;
+		
+		try {
+			conn = DBAction.getInstance().getConnection();
+			pstmt = conn.prepareStatement("SELECT * FROM USERINFO WHERE ID='"+id+"'");
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				if(rs.getString("PW").equals(pw)) {
+					DTO dto = new DTO();
+					dto.setId(rs.getString(1));
+					dto.setPw(rs.getString(2));
+					dto.setName(rs.getString(3));
+					dto.setBirth(rs.getString(4));
+					dto.setGender(rs.getString(5));
+					dto.setPhone(rs.getString(6));
+					dto.setEmail(rs.getString(7));
+					dto.setAgreement(rs.getString(8));
+					
+					return dto;
+				}
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			}catch(SQLException e) {}
+		}
+		return null;
 	}
 }

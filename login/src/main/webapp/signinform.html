@@ -11,7 +11,7 @@
 		</h1>
 	</header>
 	<section>
-		<form method="post" action="/login/SignUp">
+		<form method="post" action="/login/Service">
 			<fieldset>
 				<legend>개인정보입력</legend>
 				<table>
@@ -38,8 +38,11 @@
 					</tr>
 					<tr>
 						<th align="right">성 별:</th>
-						<td><input type="radio" name="gender" value="male">남<input
-							type="radio" name="gender" value="female">여</td>
+						<td>
+							<input type="radio" name="gender" value="male">남
+							<input type="radio" name="gender" value="female">여
+						</td>
+					</tr>
 					<tr>
 						<th align="right">전화번호:</th>
 						<td><select name="firstphone">
@@ -79,8 +82,9 @@
 							type="radio" name="agreement" value="disagree">비동의</td>
 					</tr>
 				</table>
-				<input type="submit" value="회원가입"><input type="reset"
-					value="전체수정">
+				<input type="submit" value="회원가입">
+				<input type="reset" value="전체수정">
+				<input type="hidden" name="command" value="addUser" />
 			</fieldset>
 		</form>
 	</section>
