@@ -3,17 +3,17 @@ package service;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import data.DAO;
 import data.DBAction;
+import data.DTO;
 
 /**
  * Servlet implementation class Service
@@ -39,49 +39,63 @@ public class Service extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html;charset=UTF-8");
-		request.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
-		
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		try {
-			String id = request.getParameter("id");
-			String[] column = {"ID","NAME","BIRTH","GENDER","PHONE","EMAIL","AGREEMENT"};
-			pstmt = conn.prepareStatement("SELECT ID,NAME,BIRTH,GENDER,PHONE,EMAIL,AGREEMENT FROM USERINFO WHERE ID='" + id + "'");
-				
-			rs = pstmt.executeQuery();
-
-			while(rs.next()) {
-				out.println("<html><head></head>");
-				out.println("<body><table border = '1'");
-				
-				for(int i =1; i<=column.length; i++) {
-					out.println("<tr><th>"+ column[i-1] + "</th><td>" + rs.getString(i) +"</td></tr>");
-				}
-				
-				out.println("</table margin ='0'><form><input type='button' onclick=\"location.href='/login/UpdateUserInfo?id="+id+"'\" value = 'È¸¿øÁ¤º¸¼öÁ¤'>");
-				out.println("<input type='button' onclick=\"location.href='/login/DeleteUserInfo?id="+id+"'\" value = 'È¸¿øÅ»Åð'>");
-				out.println("</form></body></html>");
-			}
-		}catch(Exception e) {
-			e.printStackTrace();
-		}finally {
-			try {
-				if(rs != null) rs.close();
-				if(pstmt != null) pstmt.close();
-			}catch(SQLException e) {}
-		}
+		doHandle(request,response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doHandle(request,response);
 
+	}
+	
+	private void doHandle(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html;charset=utf-8");
+		DAO dao = new DAO();
+		PrintWriter out = response.getWriter();
+		String command = request.getParameter("command");
+		
+		if(command != null && command.equals("addUser")) {
+			String id = request.getParameter("id");
+			String pw  = request.getParameter("pw");
+			String name = request.getParameter("name");
+			String birth = request.getParameter("year") + request.getParameter("month") + request.getParameter("day");
+			String gender = request.getParameter("gender");
+			String phone = request.getParameter("firstphone") + request.getParameter("secondphone") + request.getParameter("thirdphone");
+			String email = request.getParameter("emailid") + "@" + request.getParameter("emailaddress");
+			String agreement = request.getParameter("agreement");
+			
+			DTO dto = new DTO();
+			dto.setId(id);
+			dto.setPw(pw);
+			dto.setName(name);
+			dto.setBirth(birth);
+			dto.setGender(gender);
+			dto.setPhone(phone);
+			dto.setEmail(email);
+			dto.setAgreement(agreement);
+			dao.addUser(dto);
+			
+			request.setAttribute("dto", dto);
+			RequestDispatcher dispatch = request.getRequestDispatcher("Front");
+			dispatch.forward(request, response);
+			
+		} else if(command != null && command.equals("login")) {
+			String id = request.getParameter("id");
+			String pw = request.getParameter("pw");
+			DTO dto = dao.loginCheck(id, pw);
+			
+			if(dto != null) {
+				request.setAttribute("dto", dto);
+				RequestDispatcher dispatch = request.getRequestDispatcher("Front");
+				dispatch.forward(request, response);
+			}else {
+				response.sendRedirect("login.html");
+			}
+		}
 	}
 
 }
