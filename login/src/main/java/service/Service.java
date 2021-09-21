@@ -95,14 +95,28 @@ public class Service extends HttpServlet {
 			}else {
 				response.sendRedirect("login.html");
 			}
-			
 		} else if(command != null && command.equals("delete")) {
 			String id = request.getParameter("id");
+			System.out.println(id);
 			dao.deleteUser(id);
 			response.sendRedirect("login.html");
 			
 		} else if(command != null && command.equals("modify")) {
+			String id = request.getParameter("id");
+			String phone = request.getParameter("phone");
+			String email = request.getParameter("emailfirst") + "@" + request.getParameter("emaillast");
+			String agreement = request.getParameter("agreement");
+			DTO dto = dao.modifyUser(id, phone, email, agreement);
+			request.setAttribute("dto",dto);
+			RequestDispatcher dispatch = request.getRequestDispatcher("Front");
+			dispatch.forward(request, response);
 			
+		} else if(command != null&& command.equals("뒤로가기")) {
+			String id = request.getParameter("id");
+			
+			request.setAttribute("dto",dao.getUser(id));
+			RequestDispatcher dispatch =request.getRequestDispatcher("Front");
+			dispatch.forward(request, response);
 		}
 	}
 

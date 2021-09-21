@@ -35,7 +35,7 @@ public class Front extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		DTO dto = (DTO)request.getAttribute("dto");
 		
-		out.println("<html><head></head>");
+		out.println("<html><head><style>form {display:inline;}</style></head>");
 		out.println("<body><table border = '1'");
 		out.println("<tr><th>아이디</th><td>" + dto.getId() + "</td></tr>");
 		out.println("<tr><th>이 름</th><td>" + dto.getName() + "</td></tr>");
@@ -44,8 +44,9 @@ public class Front extends HttpServlet {
 		out.println("<tr><th>전화번호</th><td>" + dto.getPhone() + "</td></tr>");
 		out.println("<tr><th>이메일</th><td>" + dto.getEmail() + "</td></tr>");
 		out.println("<tr><th>수신동의</th><td>" + dto.getAgreement() + "</td></tr></table>");
-		out.println("<form><input type='button' name='command' onclick=\"location.href='/login/Service?id=" + dto.getId() + "'\" value = 'modify'>");
-		out.println("<input type='button' name = 'command' onclick=\"location.href='/login/Service?id=" + dto.getId() + "'\" value = 'delete'>");
+		out.println("<form action='Modify' method='post'>");
+		out.println("<input type='hidden' name='id' value='"+dto.getId()+"'><input type='submit' value = '수정'></form>");
+		out.println("<form action='Service' method ='post'><input type='hidden' name = 'command' value = 'delete'><input type ='hidden' name='id' value='"+dto.getId()+"'><input type='submit' value = '계정삭제'>");
 		out.println("</form></body></html>");
 	}
 
@@ -53,7 +54,6 @@ public class Front extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

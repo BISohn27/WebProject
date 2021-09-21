@@ -109,6 +109,7 @@ public class DAO {
 			conn = DBAction.getInstance().getConnection();
 			pstmt = conn.prepareStatement("DELETE FROM USERINFO WHERE ID='" + id + "'");
 			pstmt.executeUpdate();
+			System.out.println("½ÇÇà");
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -152,5 +153,42 @@ public class DAO {
 			}catch(SQLException e) {}
 		}
 		return null;
+	}
+	
+	public DTO modifyUser(String id, String phone, String email, String agreement) {
+		conn = DBAction.getInstance().getConnection();
+		ResultSet rs= null;
+		DTO dto = new DTO();
+		
+		try {
+			pstmt = conn.prepareStatement("UPDATE USERINFO SET PHONE=?, EMAIL=?, AGREEMENT=? WHERE ID=?");
+			pstmt.setString(1, phone);
+			pstmt.setString(2, email);
+			pstmt.setString(3, agreement);
+			pstmt.setString(4, id);
+			pstmt.executeUpdate();
+			
+			pstmt = conn.prepareStatement("SELECT * FROM USERINFO WHERE ID='"+id+"'");
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				dto.setId(rs.getString(1));
+				dto.setPw(rs.getString(2));
+				dto.setName(rs.getString(3));
+				dto.setBirth(rs.getString(4));
+				dto.setGender(rs.getString(5));
+				dto.setPhone(rs.getString(6));
+				dto.setEmail(rs.getString(7));
+				dto.setAgreement(rs.getString(8));
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			}catch(SQLException e) {}
+		}
+		return dto;
 	}
 }
