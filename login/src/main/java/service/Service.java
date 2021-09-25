@@ -80,7 +80,7 @@ public class Service extends HttpServlet {
 			dao.addUser(dto);
 			
 			request.setAttribute("dto", dto);
-			RequestDispatcher dispatch = request.getRequestDispatcher("Front");
+			RequestDispatcher dispatch = request.getRequestDispatcher("/view/Front.jsp");
 			dispatch.forward(request, response);
 			
 		} else if(command != null && command.equals("login")) {
@@ -90,7 +90,7 @@ public class Service extends HttpServlet {
 			
 			if(dto != null) {
 				request.setAttribute("dto", dto);
-				RequestDispatcher dispatch = request.getRequestDispatcher("Front");
+				RequestDispatcher dispatch = request.getRequestDispatcher("/view/Front.jsp");
 				dispatch.forward(request, response);
 			}else {
 				response.sendRedirect("login.html");
@@ -108,14 +108,14 @@ public class Service extends HttpServlet {
 			String agreement = request.getParameter("agreement");
 			DTO dto = dao.modifyUser(id, phone, email, agreement);
 			request.setAttribute("dto",dto);
-			RequestDispatcher dispatch = request.getRequestDispatcher("Front");
+			RequestDispatcher dispatch = request.getRequestDispatcher("/view/Front.jsp");
 			dispatch.forward(request, response);
 			
 		} else if(command != null&& command.equals("뒤로가기")) {
 			String id = request.getParameter("id");
 			
 			request.setAttribute("dto",dao.getUser(id));
-			RequestDispatcher dispatch =request.getRequestDispatcher("Front");
+			RequestDispatcher dispatch =request.getRequestDispatcher("/view/Front.jsp");
 			dispatch.forward(request, response);
 		}
 	}
