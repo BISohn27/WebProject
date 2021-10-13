@@ -1,0 +1,26 @@
+@charset "UTF-8";
+
+body{
+	height: 90vh;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+}
+
+div #wrap{
+	height: 100%;
+}
+
+#signuptextbox{
+	height: 100%;
+	display:flex;
+	flex-direction:column;
+	justify-content: center;
+	align-items: center;
+}
+.signup{
+	height: 3vh;
+	width: 20vw;
+	border-radius: 5px;
+	border: 1px solid gray;
+}

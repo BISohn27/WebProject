@@ -1,0 +1,15 @@
+package com.trip.main;
+
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+@MapperScan(value= {"com.trip.main.mapper"})
+public class TripApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(TripApplication.class, args);
+	}
+
+}

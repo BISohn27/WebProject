@@ -25,7 +25,7 @@
 	}
 	aside{
 		width: 15%;
-		border: 1px solid lightgray;
+		border-right: 1px solid lightgray;
 	}
 	section{
 		width: 85%;
@@ -59,8 +59,8 @@
 		flex-direction: row-reverse;
 	}
 	#sns {
-		padding-top: 1vh;
-		padding-right: 2.5vw;	
+		padding-top: 10px;
+		padding-right: 27px;
 	}
 	#login{
 		padding-right: 2vw;
